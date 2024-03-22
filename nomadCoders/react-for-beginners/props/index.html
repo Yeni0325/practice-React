@@ -8,8 +8,9 @@
 <body>
   <div id="root"></div>
 </body>
-<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
   // 🔔props : 부모 컴포넌트로부터 자식 컴포넌트에 데이터를 보낼 수 있게 해주는 방법
@@ -17,7 +18,7 @@
   //   props로는 boolean, function 다 가능하다.
 
   const root = document.getElementById("root");
-    function Btn({text, onClick }){
+    function Btn({text, onClick, fontSize = 14 }){
       console.log(text, "was rendered");
       return <button 
       onClick={onClick}
@@ -27,16 +28,22 @@
         padding : "10px 20px" ,
         borderRadius : 10 ,
         border : 0 , 
+        fontSize ,
         }}>{text}</button>; 
     }
     const MemorizedBtn = React.memo(Btn)
+    MemorizedBtn.propTypes = { //  컴포넌트에서 허용되는 props의 유형을 선언
+      text : PropTypes.string.isRequired , // 필수값일 때 .required
+      fontSize : PropTypes.number
+    };
+    
     function App() {
       const[value, setValue] = React.useState("save Changes");
       const changeValue = () => setValue("Revert Changes");
       return (
         <div>
-          <MemorizedBtn text={value} onClick={changeValue} />
-          <MemorizedBtn text="Continue" />
+          <MemorizedBtn text={value} onClick={changeValue} fontSize={18}/>
+          <MemorizedBtn text={"Continue"} />
         </div>
       );
     }
