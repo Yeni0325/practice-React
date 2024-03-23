@@ -47,6 +47,8 @@ import { useState, useEffect } from "react";
 //   );
 // }
 
+// ----------------------------------------------------------------------------------------------
+
 // 🔔cleanup function
 // 컴포넌트가 삭제(destroy)될 때도 코드를 실행할 수 있는 방법이 있음!
 
@@ -59,37 +61,89 @@ import { useState, useEffect } from "react";
 
 // useEffect는 function을 받고, 이 function은 [dependency]가 변화할 때 호출됨
 // 컴포넌트가 파괴될 때, react는 받았던 function의 return한 function을 실행함
-function Hello(){
-  // function byFn(){
-  //   console.log("bye :(");
-  // }
-  // function hiFn(){
-  //   console.log("created :)");
-  //   return byFn;
-  // }
-  // useEffect(hiFn, []);
+// function Hello(){
+//   // function byFn(){
+//   //   console.log("bye :(");
+//   // }
+//   // function hiFn(){
+//   //   console.log("created :)");
+//   //   return byFn;
+//   // }
+//   // useEffect(hiFn, []);
   
-  useEffect(() => {
-    console.log("hi :)");  
-    return () => console.log('bye :(');
-  }, []);
+//   useEffect(() => {
+//     console.log("hi :)");  
+//     return () => console.log('bye :(');
+//   }, []);
   
-  // useEffect(function(){
-  //   console.log("hi :)");
-  //   return function(){
-  //     console.log("bye :(");
-  //   }  
-  // });
-  return <h1>Hello</h1>;
-}
+//   // useEffect(function(){
+//   //   console.log("hi :)");
+//   //   return function(){
+//   //     console.log("bye :(");
+//   //   }  
+//   // });
+//   return <h1>Hello</h1>;
+// }
 
+// function App(){
+//   const [showing, setShowing] = useState(false);
+//   const onClick = () => setShowing(prev => !prev);
+//   return <div>
+//     {showing ? <Hello/> : null}
+//     <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
+//   </div>;
+// }
+
+// export default App;
+
+// ----------------------------------------------------------------------------------------------
+
+// * To do list 만들기 *
 function App(){
-  const [showing, setShowing] = useState(false);
-  const onClick = () => setShowing(prev => !prev);
-  return <div>
-    {showing ? <Hello/> : null}
-    <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
-  </div>;
+  const [toDo, setToDo] = useState(""); // setToDo는 toDo 값을 수정하는 함수!
+  const [toDos, setToDos] = useState([]);
+  const onChange = (event) => setToDo(event.target.value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (toDo === '') {
+      return;
+    }
+    // toDos.push(); // state를 직접적으로 수정할 수 없음
+
+    // Array(toDos)를 직접적으로 수정하지 않으면서 setToDos로 Array에 element를 추가하는 방법
+    setToDos((currentArray) => [toDo, ...currentArray]);
+    setToDo('');
+
+    // 함수를 수정할 때는 두가지 옵션이 있다.
+    // 1. 값을 보낼때 setToDo("") 와 같이 value를 작성하는 방법
+    // 2. 함수를 보내는 방법 (ex. setToDos((currentArray) => [toDo, ...currentArray]))
+    // 함수를 보낼 때 react.js는 첫번째 인자로 현재 state를 보냄
+    // 따라서 현재 state를 계산하거나 새로운 state를 만드는데 사용이 가능!
+  }
+  console.log(toDos);
+
+  return (
+    <div>
+      <h1>My To Dos ({toDos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          onChange={onChange}
+          value={toDo}
+          type="text"
+          placeholder="Write your to do..."
+        ></input>
+        <button>App To Do</button>
+      </form>
+      <hr />
+      {/* array.map() : 인자로 함수를 넣을 수 있는데, map은 해당 함수를 array의 모든 item에 실행함 */}
+      {/* map은 함수의 첫번재 인자로 현재 item을 가져올 수 있음 */}
+      <ul>
+        {toDos.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default App;
