@@ -1,6 +1,7 @@
 import Button from "./Button";
 import styles from "./App.module.css"
 import { useState, useEffect } from "react";
+import Movie from "./Movie";
 
 // 기본적으로 state를 변화할 때 모든 코드들은 항상 다시 실행됨,
 // 그러나 처음에 한번만 렌더링 되고 다시 실행시키지 않길 원할 수 있음!!
@@ -99,49 +100,164 @@ import { useState, useEffect } from "react";
 // ----------------------------------------------------------------------------------------------
 
 // * To do list 만들기 *
+// function App(){
+//   const [toDo, setToDo] = useState(""); // setToDo는 toDo 값을 수정하는 함수!
+//   const [toDos, setToDos] = useState([]);
+//   const onChange = (event) => setToDo(event.target.value);
+//   const onSubmit = (event) => {
+//     event.preventDefault();
+//     if (toDo === '') {
+//       return;
+//     }
+//     // toDos.push(); // state를 직접적으로 수정할 수 없음
+
+//     // Array(toDos)를 직접적으로 수정하지 않으면서 setToDos로 Array에 element를 추가하는 방법
+//     setToDos((currentArray) => [toDo, ...currentArray]);
+//     setToDo('');
+
+//     // 함수를 수정할 때는 두가지 옵션이 있다.
+//     // 1. 값을 보낼때 setToDo("") 와 같이 value를 작성하는 방법
+//     // 2. 함수를 보내는 방법 (ex. setToDos((currentArray) => [toDo, ...currentArray]))
+//     // 함수를 보낼 때 react.js는 첫번째 인자로 현재 state를 보냄
+//     // 따라서 현재 state를 계산하거나 새로운 state를 만드는데 사용이 가능!
+//   }
+//   console.log(toDos);
+
+//   return (
+//     <div>
+//       <h1>My To Dos ({toDos.length})</h1>
+//       <form onSubmit={onSubmit}>
+//         <input
+//           onChange={onChange}
+//           value={toDo}
+//           type="text"
+//           placeholder="Write your to do..."
+//         ></input>
+//         <button>App To Do</button>
+//       </form>
+//       <hr />
+//       {/* array.map() : 인자로 함수를 넣을 수 있는데, map은 해당 함수를 array의 모든 item에 실행함 */}
+//       {/* map은 함수의 첫번재 인자로 현재 item을 가져올 수 있음 */}
+//       <ul>
+//         {toDos.map((item, index) => (
+//           <li key={index}>{item}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+// ----------------------------------------------------------------------------------------------
+
+// * Coin Tracker 만들기 *
+// function App(){
+//   const [loading, setLoading] = useState(true);
+//   const [coin, setCoin] = useState(0);
+//   const [coins, setCoins] = useState([]);
+//   const [money, setMoney] = useState(0);
+//   const [selectedCoinName, setSelectedCoinName] = useState('');
+//   const onChange = (event) => setMoney(event.target.value);
+//   const selectCoin = (event) => {
+//     setCoin(Number(event.target.selectedOptions[0].getAttribute('data-price')));
+//     setSelectedCoinName(
+//       event.target.selectedOptions[0].getAttribute('data-name')
+//     );
+//   };
+//   useEffect(() => {
+//     fetch('https://api.coinpaprika.com/v1/tickers')
+//     .then(response => response.json())
+//     .then(json => {
+//       setCoins(json);
+//       setLoading(false);
+//     });
+//   },[]);
+//   useEffect(() => {
+//     console.log(money);
+//   }, [money]);
+//   useEffect(() => {
+//     console.log(coin);
+//   }, [coin]);
+//   return (
+//     <div>
+//       <h1>The Coins! {loading ? '' : `(${coins.length})`}</h1>
+//       {loading ? (
+//         <strong>Loading...</strong>
+//       ) : (
+//         <>
+//           <select onChange={selectCoin}>
+//             <option>choose some coin!!</option>
+//             {coins.map((coin) => (
+//               <option
+//                 key={coin.id}
+//                 data-price={coin.quotes.USD.price}
+//                 data-name={coin.name}
+//                 value={coin.quotes.USD.price}
+//               >
+//                 {coin.name}({coin.symbol}) : ${coin.quotes.USD.price} USD
+//               </option>
+//             ))}
+//           </select>
+//           <input type="number" onChange={onChange} value={money} />
+//           <br />
+//           {money !== 0 && coin !== 0
+//             ? `너는 ${selectedCoinName}코인을 ${money / coin}만큼 살 수 있다.`
+//             : null}
+//         </>
+//       )}
+//     </div>
+//   );
+// } 
+
+// export default App;
+
+// ----------------------------------------------------------------------------------------------
+
+// * Movie App *
+
 function App(){
-  const [toDo, setToDo] = useState(""); // setToDo는 toDo 값을 수정하는 함수!
-  const [toDos, setToDos] = useState([]);
-  const onChange = (event) => setToDo(event.target.value);
-  const onSubmit = (event) => {
-    event.preventDefault();
-    if (toDo === '') {
-      return;
-    }
-    // toDos.push(); // state를 직접적으로 수정할 수 없음
-
-    // Array(toDos)를 직접적으로 수정하지 않으면서 setToDos로 Array에 element를 추가하는 방법
-    setToDos((currentArray) => [toDo, ...currentArray]);
-    setToDo('');
-
-    // 함수를 수정할 때는 두가지 옵션이 있다.
-    // 1. 값을 보낼때 setToDo("") 와 같이 value를 작성하는 방법
-    // 2. 함수를 보내는 방법 (ex. setToDos((currentArray) => [toDo, ...currentArray]))
-    // 함수를 보낼 때 react.js는 첫번째 인자로 현재 state를 보냄
-    // 따라서 현재 state를 계산하거나 새로운 state를 만드는데 사용이 가능!
+  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState([]);
+  const getMovies = async() => {
+    // const response = await fetch(
+    //   `https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year`
+    // );
+    // const json = response.json();
+    const json = await (
+      await fetch(
+      `https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year`
+    )).json();
+    setMovies(json.data.movies)
+    setLoading(false);
   }
-  console.log(toDos);
-
+  useEffect(() => {
+    // fetch(`https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year`)
+    // .then(response => response.json())
+    // .then(json => {
+    //   setMovies(json.data.movies)
+    //   setLoading(false);
+    // });
+    getMovies();
+  }, []);
+  console.log(movies);
   return (
     <div>
-      <h1>My To Dos ({toDos.length})</h1>
-      <form onSubmit={onSubmit}>
-        <input
-          onChange={onChange}
-          value={toDo}
-          type="text"
-          placeholder="Write your to do..."
-        ></input>
-        <button>App To Do</button>
-      </form>
-      <hr />
-      {/* array.map() : 인자로 함수를 넣을 수 있는데, map은 해당 함수를 array의 모든 item에 실행함 */}
-      {/* map은 함수의 첫번재 인자로 현재 item을 가져올 수 있음 */}
-      <ul>
-        {toDos.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div>
+          {movies.map((movie) => (
+            <Movie 
+              key={movie.id}
+              title={movie.title}
+              coverImg={movie.medium_cover_image}
+              summary={movie.summary}
+              genres={movie.genres}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
