@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/practice-React/static/css/main.19ac8b90.css",
-    "main.js": "/practice-React/static/js/main.418140eb.js",
-    "index.html": "/practice-React/index.html",
-    "main.19ac8b90.css.map": "/practice-React/static/css/main.19ac8b90.css.map",
-    "main.418140eb.js.map": "/practice-React/static/js/main.418140eb.js.map"
+    "main.css": "/practice-React/nomadCoders/react-for-beginners/my-app/static/css/main.19ac8b90.css",
+    "main.js": "/practice-React/nomadCoders/react-for-beginners/my-app/static/js/main.418140eb.js",
+    "index.html": "/practice-React/nomadCoders/react-for-beginners/my-app/index.html",
+    "main.19ac8b90.css.map": "/practice-React/nomadCoders/react-for-beginners/my-app/static/css/main.19ac8b90.css.map",
+    "main.418140eb.js.map": "/practice-React/nomadCoders/react-for-beginners/my-app/static/js/main.418140eb.js.map"
   },
   "entrypoints": [
     "static/css/main.19ac8b90.css",
