@@ -2,6 +2,8 @@ import Button from "./Button";
 import styles from "./App.module.css"
 import { useState, useEffect } from "react";
 import Movie from "./components/Movie";
+import Home from './routes/Home';
+import Detail from './routes/Detail';
 
 // 기본적으로 state를 변화할 때 모든 코드들은 항상 다시 실행됨,
 // 그러나 처음에 한번만 렌더링 되고 다시 실행시키지 않길 원할 수 있음!!
@@ -213,10 +215,26 @@ import Movie from "./components/Movie";
 // export default App;
 
 // ----------------------------------------------------------------------------------------------
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+} from 'react-router-dom';
 
 // 🔔router : URL을 보고 있는 Component
 function App(){
-  return null;
-}
+  const router = createBrowserRouter([
+    {
+      path: "/", 
+      element: <Home />,
+    },
+    {
+      path: "/movie/:id", 
+      element: <Detail />,
+    },
+  ]);
+  return <RouterProvider router={router} />;
+};
 
 export default App;
